@@ -1,0 +1,22 @@
+<?xml version="1.0"?>					 
+<updates>
+	<update>
+		<name>Phoca Download Chart Statistics Module</name>
+		<description>Phoca Download Chart Statistics Module is a Joomla! module which displays chart statistics of downloaded files from Phoca Download component.</description>
+		<element>mod_phocadownload_chart_statistics</element>			 
+		<type>module</type>
+		<version>3.1.5</version>
+		<infourl title="Phoca Open Graph">http://www.phoca.cz/news</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaDownloadChartStatisticsModule/releases/download/3.1.5/mod_phocadownload_chart_statistics_v3.1.5.zip</downloadurl>
+		</downloads>
+		<tags>
+			<tag>stable</tag>
+		</tags>
+		<maintainer>Phoca.cz</maintainer>
+		<maintainerurl>http://www.phoca.cz/</maintainerurl>
+		<section>Updates</section>
+		<targetplatform name="joomla" version="3.*"/>
+		<client>site</client>
+	</update>
+</updates>

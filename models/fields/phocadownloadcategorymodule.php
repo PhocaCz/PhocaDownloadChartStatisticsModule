@@ -31,7 +31,7 @@ class JFormFieldPhocaDownloadCategoryModule extends JFormField
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 		
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 
        //build the list of categories
 		$query = 'SELECT a.title AS text, a.id AS value, a.parent_id as parentid'
@@ -42,7 +42,9 @@ class JFormFieldPhocaDownloadCategoryModule extends JFormField
 		$data = $db->loadObjectList();
 	
 		// TODO - check for other views than category edit
-		$view 	= JRequest::getVar( 'view' );
+		$app = JFactory::getApplication();
+		$view = $app->input->getCMD('view', '');
+		
 		$catId	= -1;
 		if ($view == 'phocadownloadcat') {
 			$id 	= $this->form->getValue('id'); // id of current category

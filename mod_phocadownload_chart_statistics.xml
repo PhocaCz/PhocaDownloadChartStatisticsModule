@@ -2,12 +2,12 @@
 <extension type="module" client="site" method="upgrade" version="3">
 	<name>mod_phocadownload_chart_statistics</name>
 	<author>Jan Pavelka (www.phoca.cz)</author>
-	<creationDate>05/11/2013</creationDate>
+	<creationDate>11/01/2019</creationDate>
 	<authorEmail></authorEmail>
 	<authorUrl>www.phoca.cz</authorUrl>
 	<copyright>Jan Pavelka</copyright>
 	<license>GNU/GPL</license>
-	<version>3.0.2</version>
+	<version>3.1.5</version>
 	<description>MOD_PHOCADOWNLOAD_CHART_STATISTICS_DESCRIPTION</description>
 	
 	<files>
@@ -27,7 +27,7 @@
 
 	<config>
 		<fields name="params" addfieldpath="/modules/mod_phocadownload_chart_statistics/models/fields">
-			<fieldset name="basic">
+		<fieldset name="basic">
 	
 		<field name="chart_type" type="list" default="p3" label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_CHART_TYPE_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_CHART_TYPE_DESC">			
 			<option value="PieChart">MOD_PHOCADOWNLOAD_CHART_STATISTICS_PIE_CHART</option>
@@ -38,18 +38,46 @@
 			<option value="Gauge">MOD_PHOCADOWNLOAD_CHART_STATISTICS_GAUGE</option>
 		</field>
 		
-		<field name="chart_3d" type="list" default="0" label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_3D_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_3D_DESC">			
-			<option value="1">MOD_PHOCADOWNLOAD_CHART_STATISTICS_YES</option>
-			<option value="0">MOD_PHOCADOWNLOAD_CHART_STATISTICS_NO</option>
+		<!-- PieChart Options -->
+		<field name="chart_3d" type="radio" checked="checked" default="0" showon="chart_type:PieChart" label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_3D_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_3D_DESC" class="btn-group btn-yes-no">			
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
-		
-		
-		<field name="chart_piehole" default="" size="10" type="text" label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_PIEHOLE_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_PIEHOLE_DESC" />
-		
+		<field name="chart_piehole" default="" size="10" showon="chart_type:PieChart" type="text" label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_PIEHOLE_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_PIEHOLE_DESC" />
+		<!-- Column, Bar, Area, Line Chart Options -->
+		<field name="chart_column_yearly" type="radio" checked="checked" default="1" showon="chart_type:ColumnChart[OR]chart_type:BarChart[OR]chart_type:AreaChart[OR]chart_type:LineChart" label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_YEARLY_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_YEARLY_DESC" class="btn-group btn-yes-no">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field name="chart_column_last_years" type="list" default="5" showon="chart_type:ColumnChart[OR]chart_type:BarChart[OR]chart_type:AreaChart[OR]chart_type:LineChart"  label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_COLUMN_LAST_YEARS_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_COLUMN_LAST_YEARS_DESC">			
+			<option value="0">JALL</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+		</field>
+		<field name="chart_animation" type="radio" checked="checked" default="1" showon="chart_type:ColumnChart[OR]chart_type:BarChart[OR]chart_type:AreaChart[OR]chart_type:LineChart" label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_ANIMATED_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_ANIMATED_DESC" class="btn-group btn-yes-no">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>		
+		<!-- Stacked Option for Column, Bar, Area -->
+		<field name="chart_column_stacked" type="radio" checked="checked" default="0" showon="chart_type:ColumnChart[OR]chart_type:BarChart[OR]chart_type:AreaChart" label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_STACKED_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_STACKED_DESC" class="btn-group btn-yes-no">			
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<!-- END Options -->
 		<field name="chart_title" default="" size="10" type="text" label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_CHART_TITLE_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_CHART_TITLE_DESC" />
-		
+		<field name="chart_legend" default="1" type="radio" checked="checked"  label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_CHART_LEGEND_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_CHART_LEGEND_DESC" class="btn-group btn-yes-no">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>		
+		<!--
 		<field name="chart_width" default="300" size="10" type="text" label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_CHART_WIDTH_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_CHART_WIDTH_DESC" />
 		<field name="chart_height" default="100" size="10" type="text" label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_CHART_HEIGHT_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_CHART_WIDTH_DESC" />
+		-->
+		<field name="chart_width" type="textpx" default="" label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_CHART_WIDTH_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_CHART_WIDTH_DESC" />
+		<field name="chart_height" type="textpx" default="100" label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_CHART_HEIGHT_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_CHART_WIDTH_DESC" />
 		<!--<field name="display_per" type="list" default="1" label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_DISPLAY_PERCENTAGE_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_DISPLAY_PERCENTAGE_DESC">
 			<option value="0">MOD_PHOCADOWNLOAD_CHART_STATISTICS_NO</option>
 			<option value="1">MOD_PHOCADOWNLOAD_CHART_STATISTICS_YES</option>
@@ -58,24 +86,26 @@
 		<field name="number_item" default="10" size="10" type="text" label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_NUMBER_OF_ITEMS_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_NUMBER_OF_ITEMS_DESC" />
 		<field name="category_id" default="" size="5" type="PhocaDownloadCategoryModule" multiple="true" label="MOD_PHOCADOWNLOAD_CHART_STATISTICS_CATEGORY_ID_LABEL" description="MOD_PHOCADOWNLOAD_CHART_STATISTICS_CATEGORY_ID_DESC" />
 	
-	<field
-name="moduleclass_sfx"
-type="text"
-label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+		<field
+			name="moduleclass_sfx"
+			type="text"
+			label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+			description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 				
-<field
-name="cache"
-type="list"
-default="0"
-label="COM_MODULES_FIELD_CACHING_LABEL"
-description="COM_MODULES_FIELD_CACHING_DESC">
-<option
-	value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-</field>
+		<field
+			name="cache"
+			type="list"
+			default="0"
+			label="COM_MODULES_FIELD_CACHING_LABEL"
+			description="COM_MODULES_FIELD_CACHING_DESC">
+			<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+		</field>
 
 		
-			</fieldset>
+		</fieldset>
 		</fields>
 	</config>
+	<updateservers>
+		<server type="extension" priority="1" name="updates"><![CDATA[https://raw.githubusercontent.com/PhocaCz/PhocaDownloadChartStatisticsModule/master/manifest.xml]]></server>
+	</updateservers>
 </extension>
