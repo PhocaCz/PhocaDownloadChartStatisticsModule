@@ -1,0 +1,18 @@
+{
+	"author": "Jan Pavelka (www.phoca.cz)",
+	"authorUrl": "https://www.phoca.cz",
+	"copyright": "Jan Pavelka",
+	"license": "GNU/GPL",
+	"projectName": "PhocaDownloadChartStatisticsModule",
+	"extensionName": "Phoca Download Chart Statistics Module",
+	"projectInitials" : "PD",				  
+	"description": "Phoca Download Chart Statistics Module is a Joomla! module which displays chart statistics of downloaded files from Phoca Download component.",
+	"projectUrl": "https://www.phoca.cz/phocadownload-chartstatistics",
+	"projectDocumentationUrl": "https://www.phoca.cz/documentation/category/34-phoca-download-chart-statistics-module",
+	"projectMainComponent": "Phoca Download",
+	"projectMainComponentInfoUrl": "https://www.phoca.cz/project/phocadownload-joomla-download",
+	"projectDemo" : {
+		"Demo": "https://www.phoca.cz/download"
+	},
+	"projectColor": "#339933"
+}

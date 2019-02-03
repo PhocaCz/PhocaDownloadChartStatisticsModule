@@ -7,7 +7,15 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 defined('_JEXEC') or die('Restricted access');
-if(!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
+
+use Joomla\Utilities\ArrayHelper;
+
+// Include Phoca Download
+if (!JComponentHelper::isEnabled('com_phocadownload', true)) {
+    echo '<div class="alert alert-danger">Phoca Download Error: Phoca Download component is not installed or not published on your system</div>';
+    return;
+}
+
 if (! class_exists('PhocaDownloadLoader')) {
     require_once( JPATH_ADMINISTRATOR.'/components/com_phocadownload/libraries/loader.php');
 }
@@ -15,14 +23,14 @@ phocadownloadimport('phocadownload.access.access');
 
 $user 		= JFactory::getUser();
 $userLevels	= implode (',', $user->getAuthorisedViewLevels());
-$aid 		= $user->get('aid', 0);	
+$aid 		= $user->get('aid', 0);
 $db 		= JFactory::getDBO();
 $app 		= JFactory::getApplication();
 $menu 		= $app->getMenu();
 $document	= JFactory::getDocument();
 $mid		= $module->id; //additional Modul-ID
 
-// PARAMS 
+// PARAMS
 $chart_width 		= $params->get( 'chart_width' );
 $chart_height 		= $params->get( 'chart_height', 100 );
 $number_item	 	= $params->get( 'number_item','' );
@@ -39,7 +47,7 @@ $chart_column_stacked		= $params->get( 'chart_column_stacked', 0);
 $chart_animation			= $params->get( 'chart_animation', 1);
 
 // Items
-$where		= array();	
+$where		= array();
 $wheres[]	= ' a.textonly = 0';
 $wheres[]	= '( (unaccessible_file = 1 ) OR (unaccessible_file = 0 AND a.access IN ('.$userLevels.') ) )';
 $wheres[]	= '( (unaccessible_file = 1 ) OR (unaccessible_file = 0 AND cc.access IN ('.$userLevels.') ) )';
@@ -60,7 +68,7 @@ $wheres[]	= ' ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$d
 $wheres[]	= ' ( a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).' )';
 // SQL, QUERY
 if (is_array($displayCat)) {
-	JArrayHelper::toInteger($displayCat);
+    ArrayHelper::toInteger($displayCat);
 	$displayCatString	= implode(',', $displayCat);
 	$wheres[]	= ' cc.id IN ( '.$displayCatString.' ) ';
 } else if ((int)$displayCat > 0) {
@@ -88,9 +96,9 @@ $items = $db->loadObjectList();
 //yearly Column Chart
 	$years='';
 	$where_last_years = ((int)$chart_column_last_years != 0)?' WHERE YEAR(cu.date) > (YEAR(NOW())-'.(int)$chart_column_last_years.')':'';
-	
+
 	if($chart_column_yearly == 1 && ($chart_type == 'ColumnChart' or $chart_type == 'BarChart' or $chart_type == 'AreaChart' or $chart_type == 'LineChart')){
-		
+
 		// load all years (e.g. array(2015,2016,2017,2018))
 		$qry_years = "SELECT YEAR(cu.date) AS 'year'"
 				. " FROM #__phocadownload_user_stat as cu"
@@ -102,7 +110,7 @@ $items = $db->loadObjectList();
 				. " GROUP BY YEAR(cu.date)";
 		$db->setQuery( $qry_years );
 		$years = $db->loadObjectList();
-		
+
 		// load yearly Data
 		$qry_yearly_items = "SELECT ch.id ";
 			foreach ($years as $v) {
@@ -114,10 +122,10 @@ $items = $db->loadObjectList();
 				. ") as ch"
 				. " ON cu.fileid = ch.id"
 				. " GROUP BY ch.id"
-				. " ORDER by ch.id";				
+				. " ORDER by ch.id";
 		$db->setQuery( $qry_yearly_items );
 		$yearly_items = $db->loadObjectList();
-		
+
 		$style_padding = "padding-bottom: 1em;";
 	}
 
@@ -130,15 +138,15 @@ if (!empty($items)) {
 		$styleO .= 'text-align: center;';
 		$styleO .= 'width: 100%;';
 		$styleO .= (!empty($style_padding))?$style_padding:'';
-		
+
 		$styleO = 'style="'.$styleO.'"';
-		
+
 		$styleC .= ($chart_width != '')?'width: '.(int)$chart_width.'px;':'width: 100%;';
 
 	if ($chart_height != '') {
 		$styleC .= 'height: '.(int)$chart_height . 'px;';
 	}
-		$styleC = 'style="'.$styleC.'"';	
+		$styleC = 'style="'.$styleC.'"';
 
 
 	if ($chart_type == 'Gauge') {
@@ -150,9 +158,9 @@ if (!empty($items)) {
 	$s[] = 'google.charts.load("current", {packages: ["'.$package.'"]});';
 	$s[] = 'google.charts.setOnLoadCallback(drawChart_'.$mid.');';
 	$s[] = 'function drawChart_'.$mid.'() {';
-	$s[] = '  var data = new google.visualization.DataTable();';	
+	$s[] = '  var data = new google.visualization.DataTable();';
 	$s[] = '  data.addColumn("string", "'.JText::_('MOD_PHOCADOWNLOAD_CHART_STATISTICS_FILE').'");';
-	
+
 	//yearly ColumnChart
 	if (!empty($years)) {
 		foreach ($years as $v) {
@@ -162,7 +170,7 @@ if (!empty($items)) {
 	else{
 		$s[] = '  data.addColumn("number", "'.JText::_('MOD_PHOCADOWNLOAD_CHART_STATISTICS_DOWNLOADS').'");';
 	}
-	
+
 	$s[] = '  data.addRows([';
 	$i = 0;
 	foreach ($items as $value) {
@@ -173,7 +181,7 @@ if (!empty($items)) {
 			$rightDisplay = PhocaDownloadAccess::getUserRight('accessuserid', $value->cataccessuserid, $value->cataccess, $user->getAuthorisedViewLevels(), $user->get('id', 0), 0);
 		}
 		// - - - - - - - - - - - - - - - - - - - - - -
-		if ($rightDisplay == 1) {						
+		if ($rightDisplay == 1) {
 			if (!empty($years)) {
 				$a = "  ['".htmlspecialchars($value->title)."'";
 				//yearly data
@@ -202,11 +210,11 @@ if (!empty($items)) {
 		$s[] = "  'title':'".htmlspecialchars($chart_title)."',";
 	}
 		$s[] = "  hAxis: {title: 'Files', titleTextStyle: {color: 'grey'}},";
-		
+
 	if ($chart_animation == 1) {
 	    $s[] = "  animation: {'startup': true, duration: 1000, easing: 'in'},";
 	}
-	
+
 	if ($chart_type == 'PieChart'){
 		if ($chart_3d == 1) {
 			$s[] = "  'is3D': true,";
@@ -214,8 +222,8 @@ if (!empty($items)) {
 		if ((float)$chart_piehole > 0 && (float)$chart_piehole <= 1) {
 			$s[] = '  pieHole: '.$chart_piehole.',';
 		}
-	}		
-	
+	}
+
 	if ($chart_legend == 0) {
 		$s[] = "  legend: 'none',";
 	}
@@ -225,14 +233,14 @@ if (!empty($items)) {
 
 		//$s[] = "  'width':".(int)$chart_width.",";
 		//$s[] = "  'height':".(int)$chart_height."";
-	
+
 	$s[] = ' };';
 
 
 	$s[] = ' ';
 	$s[] = ' var chart = new google.visualization.'.htmlspecialchars($chart_type).'(document.getElementById(\'pdchsmo_chart_'.$mid.'\'));';
 	$s[] = ' chart.draw(data, options);';
-	
+
 	//toggle Data Table Button
 	$toggleScript = "
 			var toggleButton = document.getElementById('pdchsmo_btn_".$mid."');
@@ -258,11 +266,11 @@ if (!empty($items)) {
 				}
 			}";
 	$s[] = $toggleScript;
-			
+
 	$s[] = '}';
 
 	$document->addScript('https://www.gstatic.com/charts/loader.js');
-	$document->addScript(JURI::base() . 'modules/mod_phocadownload_chart_statistics/assets/js/toggleDataTable.js');	
+	$document->addScript(JURI::base() . 'media/mod_phocadownload_chart_statistics/js/toggleDataTable.js');
 	$document->addScriptDeclaration(implode("\n", $s));
 }
 
