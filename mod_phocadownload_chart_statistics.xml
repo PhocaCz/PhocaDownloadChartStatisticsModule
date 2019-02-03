@@ -20,6 +20,7 @@
 		<folder>models</folder>
 		<folder>tmpl</folder>
 		<filename module="mod_phocadownload_chart_statistics">index.html</filename>
+		<filename module="mod_phocadownload_chart_statistics">manifest.xml</filename>
 		<filename module="mod_phocadownload_chart_statistics">mod_phocadownload_chart_statistics.php</filename>
 	</files>
 

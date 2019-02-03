@@ -244,7 +244,9 @@ if (!empty($items)) {
 	//toggle Data Table Button
 	$toggleScript = "
 			var toggleButton = document.getElementById('pdchsmo_btn_".$mid."');
-			function orgChart() {
+			if (toggleButton) {
+			
+			 function orgChart() {
 				var chart = new google.visualization.".htmlspecialchars($chart_type)."(document.getElementById('pdchsmo_chart_".$mid."'));
 				options.hAxis.title= 'Files';
 				chart.draw(data, options);
@@ -264,13 +266,15 @@ if (!empty($items)) {
 					orgChart();
 					toggleButton.setAttribute ('data','files');
 				}
+			 }
 			}";
+
 	$s[] = $toggleScript;
 
 	$s[] = '}';
 
 	$document->addScript('https://www.gstatic.com/charts/loader.js');
-	$document->addScript(JURI::base() . 'media/mod_phocadownload_chart_statistics/js/toggleDataTable.js');
+	$document->addScript(JURI::base(true) . '/media/mod_phocadownload_chart_statistics/js/toggleDataTable.js');
 	$document->addScriptDeclaration(implode("\n", $s));
 }
 
