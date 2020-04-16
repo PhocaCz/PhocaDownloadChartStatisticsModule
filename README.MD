@@ -26,6 +26,8 @@ Phoca Download Chart Statistics Module is a Joomla! module which displays chart 
 
 
 
+
+
 ## Support
 
 [Phoca Forum](https://www.phoca.cz/forum)
@@ -52,7 +54,7 @@ Phoca Download Chart Statistics Module is a Joomla! module which displays chart 
 
 ## Version
 
-3.1.7
+3.2.0
 
 
 
