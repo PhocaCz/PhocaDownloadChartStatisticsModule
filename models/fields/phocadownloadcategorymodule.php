@@ -18,7 +18,7 @@ class JFormFieldPhocaDownloadCategoryModule extends JFormField
 	protected $type 		= 'PhocaDownloadCategoryModule';
 
 	protected function getInput() {
-	
+
 		// Initialize variables.
 		$attr = '';
 
@@ -30,7 +30,7 @@ class JFormFieldPhocaDownloadCategoryModule extends JFormField
 
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
-		
+
 		$db = JFactory::getDBO();
 
        //build the list of categories
@@ -40,11 +40,11 @@ class JFormFieldPhocaDownloadCategoryModule extends JFormField
 		. ' ORDER BY a.ordering';
 		$db->setQuery( $query );
 		$data = $db->loadObjectList();
-	
+
 		// TODO - check for other views than category edit
 		$app = JFactory::getApplication();
 		$view = $app->input->getCMD('view', '');
-		
+
 		$catId	= -1;
 		if ($view == 'phocadownloadcat') {
 			$id 	= $this->form->getValue('id'); // id of current category
@@ -58,22 +58,22 @@ class JFormFieldPhocaDownloadCategoryModule extends JFormField
 				$catId = $id;
 			}
 		}*/
-		
-		
-		
+
+
+
 		$required	= ((string) $this->element['required'] == 'true') ? TRUE : FALSE;
-		
+
 		$tree = array();
 		$text = '';
 		$tree = PhocaDownloadCategory::CategoryTreeOption($data, $tree, 0, $text, $catId);
-		
+
 		//if ($required == TRUE) {
-		
+
 		//} else {
-		
-			//array_unshift($tree, JHTML::_('select.option', '', '- '.JText::_('COM_PHOCADOWNLOAD_SELECT_CATEGORY').' -', 'value', 'text'));
+
+			//array_unshift($tree, Joomla\CMS\HTML\HTMLHelper::_('select.option', '', '- '.JText::_('COM_PHOCADOWNLOAD_SELECT_CATEGORY').' -', 'value', 'text'));
 		//}
-		return JHTML::_('select.genericlist',  $tree,  $this->name, $attr, 'value', 'text', $this->value, $this->id );
+		return Joomla\CMS\HTML\HTMLHelper::_('select.genericlist',  $tree,  $this->name, $attr, 'value', 'text', $this->value, $this->id );
 	}
 }
 ?>
