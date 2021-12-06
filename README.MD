@@ -2,7 +2,7 @@
 
 
 
-![Phoca Download Chart Statistics Module](https://github.com/PhocaCz/PhocaDownloadChartStatisticsModule/blob/master/mod_phocadownload_chart_statistics.png)
+![Phoca Download Chart Statistics Module](https://github.com/PhocaCz/PhocaDownloadChartStatisticsModule/blob/master/mod_phocadownload_chart_statistics.png?raw=true)
 
 # Phoca Download Chart Statistics Module
 
@@ -52,9 +52,13 @@ Phoca Download Chart Statistics Module is a Joomla! module which displays chart 
 
 
 
-## Version
+## Version (Joomla! 3.x)
 
 3.2.1
+
+## Version (Joomla! 4.x)
+
+4.0.0
 
 
 

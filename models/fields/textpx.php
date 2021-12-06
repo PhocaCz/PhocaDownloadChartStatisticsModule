@@ -29,7 +29,7 @@ class JFormFieldtextpx extends JFormField {
         public function getInput() {
 
             return 	'<div class="input-append">'.
-					'<input class="input-medium" type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
+					'<input class="input-medium form-control" style="width: 10em;display:inline;margin-right: 1em;" type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
 					. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"/>'.
 					'<span class="add-on">px</span>'.
 					'</div>';

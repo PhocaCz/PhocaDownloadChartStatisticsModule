@@ -1,17 +1,23 @@
 <?php
-/* @package Joomla
- * @copyright Copyright (C) Open Source Matters. All rights reserved.
- * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL, see LICENSE.php
- * @extension Phoca Extension
+/*
+ * @package		Joomla.Framework
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @component Phoca Component
  * @copyright Copyright (C) Jan Pavelka www.phoca.cz
- * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
+ * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License version 2 or later;
  */
+
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die();
-if(!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
-if (! class_exists('PhocaDownloadLoader')) {
-    require_once( JPATH_ADMINISTRATOR.'/components/com_phocadownload/libraries/loader.php');
+
+
+
+if (! class_exists('PhocaDownloadCategory')) {
+    require_once( JPATH_ADMINISTRATOR.'/components/com_phocadownload/libraries/phocadownload/category/category.php');
 }
-phocadownloadimport('phocadownload.category.category');
 
 class JFormFieldPhocaDownloadCategoryModule extends JFormField
 {
@@ -19,6 +25,7 @@ class JFormFieldPhocaDownloadCategoryModule extends JFormField
 
 	protected function getInput() {
 
+        $app = Factory::getApplication();
 		// Initialize variables.
 		$attr = '';
 
@@ -42,9 +49,7 @@ class JFormFieldPhocaDownloadCategoryModule extends JFormField
 		$data = $db->loadObjectList();
 
 		// TODO - check for other views than category edit
-		$app = JFactory::getApplication();
-		$view = $app->input->getCMD('view', '');
-
+		$view 	= $app->input->get( 'view' );
 		$catId	= -1;
 		if ($view == 'phocadownloadcat') {
 			$id 	= $this->form->getValue('id'); // id of current category
@@ -71,9 +76,9 @@ class JFormFieldPhocaDownloadCategoryModule extends JFormField
 
 		//} else {
 
-			//array_unshift($tree, Joomla\CMS\HTML\HTMLHelper::_('select.option', '', '- '.JText::_('COM_PHOCADOWNLOAD_SELECT_CATEGORY').' -', 'value', 'text'));
+			//array_unshift($tree, JHTML::_('select.option', '', '- '.JText::_('COM_PHOCADOWNLOAD_SELECT_CATEGORY').' -', 'value', 'text'));
 		//}
-		return Joomla\CMS\HTML\HTMLHelper::_('select.genericlist',  $tree,  $this->name, $attr, 'value', 'text', $this->value, $this->id );
+		return JHTML::_('select.genericlist',  $tree,  $this->name, $attr, 'value', 'text', $this->value, $this->id );
 	}
 }
 ?>
