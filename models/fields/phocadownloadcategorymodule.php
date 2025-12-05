@@ -10,6 +10,8 @@
  */
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
 
 defined('_JEXEC') or die();
 
@@ -19,7 +21,7 @@ if (! class_exists('PhocaDownloadCategory')) {
     require_once( JPATH_ADMINISTRATOR.'/components/com_phocadownload/libraries/phocadownload/category/category.php');
 }
 
-class JFormFieldPhocaDownloadCategoryModule extends JFormField
+class JFormFieldPhocaDownloadCategoryModule extends FormField
 {
 	protected $type 		= 'PhocaDownloadCategoryModule';
 
@@ -38,15 +40,16 @@ class JFormFieldPhocaDownloadCategoryModule extends JFormField
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 
-		$db = JFactory::getDBO();
+		$db = Factory::getDBO();
 
        //build the list of categories
-		$query = 'SELECT a.title AS text, a.id AS value, a.parent_id as parentid'
+		$query = 'SELECT a.title AS text, a.id AS value, a.parent_id as parent_id'
 		. ' FROM #__phocadownload_categories AS a'
 		. ' WHERE a.published = 1'
 		. ' ORDER BY a.ordering';
 		$db->setQuery( $query );
 		$data = $db->loadObjectList();
+
 
 		// TODO - check for other views than category edit
 		$view 	= $app->input->get( 'view' );
@@ -78,7 +81,8 @@ class JFormFieldPhocaDownloadCategoryModule extends JFormField
 
 			//array_unshift($tree, JHTML::_('select.option', '', '- '.JText::_('COM_PHOCADOWNLOAD_SELECT_CATEGORY').' -', 'value', 'text'));
 		//}
-		return JHTML::_('select.genericlist',  $tree,  $this->name, $attr, 'value', 'text', $this->value, $this->id );
+
+		return HTMLHelper::_('select.genericlist',  $tree,  $this->name, $attr, 'value', 'text', $this->value, $this->id );
 	}
 }
 ?>

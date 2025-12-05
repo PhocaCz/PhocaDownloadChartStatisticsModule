@@ -7,25 +7,27 @@
 */
 
 // Check to ensure this file is included in Joomla!
+use Joomla\CMS\Form\FormField;
+
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.form.formfield');
 
-/* ******************* 
+/* *******************
  Example in the xml-file
  copy this file in the folder elements:
  <fields name="params" addfieldpath="/modules/mod_j51inlineicons/elements">
  <field name="myfield" type="textpx" default="42" label="Size" description="Size in px" />
  ********************* */
- 
-class JFormFieldtextpx extends JFormField {
- 
+
+class JFormFieldtextpx extends FormField {
+
         protected $type = 'textpx';
- 
+
 		protected function getLabel(){
-			
+
 			return parent::getLabel();
 		}
- 
+
         public function getInput() {
 
             return 	'<div class="input-append">'.

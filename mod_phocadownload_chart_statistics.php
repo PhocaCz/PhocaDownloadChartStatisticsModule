@@ -8,10 +8,14 @@
  */
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 // Include Phoca Download
-if (!JComponentHelper::isEnabled('com_phocadownload', true)) {
+if (!ComponentHelper::isEnabled('com_phocadownload', true)) {
     echo '<div class="alert alert-danger">Phoca Download Error: Phoca Download component is not installed or not published on your system</div>';
     return;
 }
@@ -21,13 +25,13 @@ if (! class_exists('PhocaDownloadLoader')) {
 }
 phocadownloadimport('phocadownload.access.access');
 
-$user 		= JFactory::getUser();
+$user 		= Factory::getUser();
 $userLevels	= implode (',', $user->getAuthorisedViewLevels());
 $aid 		= $user->get('aid', 0);
-$db 		= JFactory::getDBO();
-$app 		= JFactory::getApplication();
+$db 		= Factory::getDBO();
+$app 		= Factory::getApplication();
 $menu 		= $app->getMenu();
-$document	= JFactory::getDocument();
+$document	= Factory::getDocument();
 $mid		= $module->id; //additional Modul-ID
 
 // PARAMS
@@ -56,12 +60,12 @@ $wheres[]	= ' a.approved = 1';
 $wheres[]	= ' cc.published = 1';
 /*
 if ($this->getState('filter.language')) {
-	$wheres[] =  ' c.language IN ('.$db->Quote(JFactory::getLanguage()->getTag()).','.$db->Quote('*').')';
-	$wheres[] =  ' cc.language IN ('.$db->Quote(JFactory::getLanguage()->getTag()).','.$db->Quote('*').')';
+	$wheres[] =  ' c.language IN ('.$db->Quote(Factory::getLanguage()->getTag()).','.$db->Quote('*').')';
+	$wheres[] =  ' cc.language IN ('.$db->Quote(Factory::getLanguage()->getTag()).','.$db->Quote('*').')';
 }*/
 
 // Active
-$jnow		= JFactory::getDate();
+$jnow		= Factory::getDate();
 $now		= $jnow->toSql();
 $nullDate	= $db->getNullDate();
 $wheres[]	= ' ( a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).' )';
@@ -159,7 +163,7 @@ if (!empty($items)) {
 	$s[] = 'google.charts.setOnLoadCallback(drawChart_'.$mid.');';
 	$s[] = 'function drawChart_'.$mid.'() {';
 	$s[] = '  var data = new google.visualization.DataTable();';
-	$s[] = '  data.addColumn("string", "'.JText::_('MOD_PHOCADOWNLOAD_CHART_STATISTICS_FILE').'");';
+	$s[] = '  data.addColumn("string", "'.Text::_('MOD_PHOCADOWNLOAD_CHART_STATISTICS_FILE').'");';
 
 	//yearly ColumnChart
 	if (!empty($years)) {
@@ -168,7 +172,7 @@ if (!empty($items)) {
 		}
 	}
 	else{
-		$s[] = '  data.addColumn("number", "'.JText::_('MOD_PHOCADOWNLOAD_CHART_STATISTICS_DOWNLOADS').'");';
+		$s[] = '  data.addColumn("number", "'.Text::_('MOD_PHOCADOWNLOAD_CHART_STATISTICS_DOWNLOADS').'");';
 	}
 
 	$s[] = '  data.addRows([';
@@ -273,10 +277,16 @@ if (!empty($items)) {
 
 	$s[] = '}';
 
-	$document->addScript('https://www.gstatic.com/charts/loader.js');
-	$document->addScript(JURI::base(true) . '/media/mod_phocadownload_chart_statistics/js/toggleDataTable.js');
-	$document->addScriptDeclaration(implode("\n", $s));
+	$app = Factory::getApplication();
+	$wa  = $app->getDocument()->getWebAssetManager();
+	$wa->registerAndUseScript('mod_phocadownload_chart_statistics.loader.js', 'https://www.gstatic.com/charts/loader.js', ['version' => 'auto']);
+	$wa->registerAndUseScript('mod_phocadownload_chart_statistics.toggleDataTable.js', 'media/mod_phocadownload_chart_statistics/js/toggleDataTable.js', ['version' => 'auto']);
+	$wa->addInlineScript(implode("\n", $s));
+
+	//$document->addScript('https://www.gstatic.com/charts/loader.js');
+	//$document->addScript(JURI::base(true) . '/media/mod_phocadownload_chart_statistics/js/toggleDataTable.js');
+	//$document->addScriptDeclaration(implode("\n", $s));
 }
 
-require(JModuleHelper::getLayoutPath('mod_phocadownload_chart_statistics'));
+require(ModuleHelper::getLayoutPath('mod_phocadownload_chart_statistics'));
 ?>
