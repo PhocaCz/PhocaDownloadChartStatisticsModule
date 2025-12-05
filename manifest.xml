@@ -48,7 +48,26 @@
 		<downloads>
 			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaDownloadChartStatisticsModule/releases/download/6.0.0/mod_phocadownload_chart_statistics_v6.0.0.zip</downloadurl>
 		</downloads>
-		<sha512>cac4293f7949656ca9142fcfebf010b3b40c753cfb91c5ec6307d22f3b7cf5a84bbfdc31af9cf58b27660f988c774fd639116ad48a672c31e091a595b8f20d42</sha512>
+		<tags>
+			<tag>stable</tag>
+		</tags>
+		<maintainer><![CDATA[ Phoca.cz ]]></maintainer>
+		<maintainerurl>https://www.phoca.cz/</maintainerurl>
+		<section>Updates</section>
+		<targetplatform name="joomla" version="5\.*"/>
+		<client>site</client>
+	</update>
+	<update>
+		<name><![CDATA[ Phoca Download Chart Statistics Module ]]></name>
+		<description><![CDATA[ Phoca Download Chart Statistics Module is a Joomla! module which displays chart statistics of downloaded files from Phoca Download component. ]]></description>
+		<element>mod_phocadownload_chart_statistics</element>
+		<type>module</type>
+		<version>6.0.0</version>
+		<infourl title="Phoca Download Chart Statistics Module 6.0.0">https://www.phoca.cz/</infourl>
+		<downloads>
+			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaDownloadChartStatisticsModule/releases/download/6.0.0/mod_phocadownload_chart_statistics_v6.0.0.zip</downloadurl>
+		</downloads>
+		<sha512>273997a59cfd75b6d21e1582afca764cd248518b687c98416e4d3c8f281e644041d31e0a13387a2071e57d09a2006611ff3e2cc3c6a68408ebe3e9cac67ef437</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>

@@ -60,6 +60,10 @@ Phoca Download Chart Statistics Module is a Joomla! module which displays chart 
 
 4.0.0
 
+## Version (Joomla! 5.x)
+
+6.0.0
+
 
 
 ## License
